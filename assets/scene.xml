@@ -1,0 +1,31 @@
+<mujoco model="space_assembly">
+  <compiler angle="radian" autolimits="true" meshdir="./stls"></compiler>
+  <option integrator="implicitfast"></option>
+  <visual>
+    <headlight ambient="0.3 0.3 0.3" diffuse="0.6 0.6 0.6" specular="0 0 0"></headlight>
+    <rgba haze="0.15 0.25 0.35 1"></rgba>
+    <global azimuth="-120" elevation="-20"></global>
+  </visual>
+  <asset>
+    <texture builtin="gradient" height="3072" rgb1="0.3 0.5 0.7" rgb2="0 0 0" type="skybox" width="512"></texture>
+    <texture builtin="checker" height="300" mark="edge" markrgb="0.8 0.8 0.8" name="groundplane" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" type="2d" width="300"></texture>
+    <material name="groundplane" reflectance="0.2" texrepeat="5 5" texture="groundplane" texuniform="true"></material>
+  </asset>
+  <include file="./iiwa_asset.xml"></include>
+  <include file="./iiwa_actuator.xml"></include>
+  <worldbody>
+    <light dir="0 0 -1" directional="true" pos="0 0 1.5"></light>
+    <geom material="groundplane" name="floor" size="0 0 0.05" type="plane"></geom>
+    <body name="arm" pos="0 0 0">
+      <include file="./iiwa_chain.xml"></include>
+    </body>
+    <body mocap="true" name="target" pos="0.5 0 .6" quat="0 1 0 0">
+      <geom conaffinity="0" contype="0" rgba=".6 .3 .3 .0" size=".02 .02 .02" type="box"></geom>
+      <site group="3" rgba="0 0 1 1" size="0.01" type="sphere"></site>
+    </body>
+  </worldbody>
+  <sensor>
+    <force name="ee_force_sensor" site="sensor"></force>
+    <torque name="ee_torque_sensor" site="sensor"></torque>
+  </sensor>
+</mujoco>

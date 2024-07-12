@@ -1,0 +1,105 @@
+<mujocoinclude>
+  <body childclass="iiwa" name="kuka_base">
+    <inertial diaginertia="0.05 0.06 0.03" mass="5" pos="-0.1 0 0.07"></inertial>
+    <geom class="kuka_visual" mesh="link_0"></geom>
+    <geom class="kuka_collision" name="kuka_base_geom1" pos="0 0 0.03" size="0.12"></geom>
+    <geom class="kuka_collision" pos="-0.08 0 0.103" size="0.08"></geom>
+    <geom class="kuka_collision" pos="-0.08 0 0.04" size="0.08"></geom>
+    <geom class="kuka_collision" pos="0 0 0.14" size="0.1"></geom>
+    <body name="link1" pos="0 0 0.1575">
+      <inertial diaginertia="0.0333 0.033 0.0123" mass="5.76" pos="0 -0.03 0.12"></inertial>
+      <joint class="joint1" name="kuka_joint1"></joint>
+      <geom class="kuka_visual" mesh="link_1"></geom>
+      <geom class="kuka_collision" pos="0 0 -0.0005" size="0.08"></geom>
+      <geom class="kuka_collision" pos="0.01 -0.025 0.0425" size="0.075"></geom>
+      <geom class="kuka_collision" pos="-0.01 -0.025 0.0425" size="0.075"></geom>
+      <geom class="kuka_collision" pos="0.01 -0.045 0.1025" size="0.07"></geom>
+      <geom class="kuka_collision" pos="-0.01 -0.045 0.1025" size="0.07"></geom>
+      <body name="link2" pos="0 0 0.2025" quat="0 0 1 1">
+        <inertial diaginertia="0.0305 0.0304 0.011" mass="6.35" pos="0.0003 0.059 0.042" quat="0 0 1 1"></inertial>
+        <joint class="joint2" name="kuka_joint2"></joint>
+        <geom class="kuka_visual" material="kuka_orange" mesh="link_2_orange"></geom>
+        <geom class="kuka_visual" mesh="link_2_grey"></geom>
+        <geom class="kuka_collision" pos="0 0 -0.01" size="0.095"></geom>
+        <geom class="kuka_collision" pos="0 0 0.045" size="0.09"></geom>
+        <geom class="kuka_collision" pos="-0.01 0.04 0.054" size="0.07"></geom>
+        <geom class="kuka_collision" pos="-0.01 0.09 0.04" size="0.065"></geom>
+        <geom class="kuka_collision" pos="-0.01 0.13 0.02" size="0.065"></geom>
+        <geom class="kuka_collision" pos="0.01 0.04 0.054" size="0.07"></geom>
+        <geom class="kuka_collision" pos="0.01 0.09 0.04" size="0.065"></geom>
+        <geom class="kuka_collision" pos="0.01 0.13 0.02" size="0.065"></geom>
+        <geom class="kuka_collision" pos="0 0.18 0" size="0.075"></geom>
+        <body name="link3" pos="0 0.2045 0" quat="0 0 1 1">
+          <inertial diaginertia="0.025 0.0238 0.0076" mass="3.5" pos="0 0.03 0.13"></inertial>
+          <joint class="joint1" name="kuka_joint3"></joint>
+          <geom class="kuka_visual" mesh="link_3"></geom>
+          <geom class="kuka_visual" material="kuka_light_gray" mesh="band"></geom>
+          <geom class="kuka_visual" material="kuka_black" mesh="kuka"></geom>
+          <geom class="kuka_collision" pos="0 0 0.0355" size="0.075"></geom>
+          <geom class="kuka_collision" pos="0.01 0.023 0.0855" size="0.06"></geom>
+          <geom class="kuka_collision" pos="0.01 0.048 0.1255" size="0.055"></geom>
+          <geom class="kuka_collision" pos="0.01 0.056 0.1755" size="0.06"></geom>
+          <geom class="kuka_collision" pos="-0.01 0.023 0.0855" size="0.06"></geom>
+          <geom class="kuka_collision" pos="-0.01 0.048 0.1255" size="0.055"></geom>
+          <geom class="kuka_collision" pos="-0.01 0.056 0.1755" size="0.06"></geom>
+          <geom class="kuka_collision" pos="0 0.045 0.2155" size="0.075"></geom>
+          <geom class="kuka_collision" pos="0 0 0.2155" size="0.075"></geom>
+          <body name="link4" pos="0 0 0.2155" quat="1 1 0 0">
+            <inertial diaginertia="0.017 0.0164 0.006" mass="3.5" pos="0 0.067 0.034" quat="1 1 0 0"></inertial>
+            <joint class="joint2" name="kuka_joint4"></joint>
+            <geom class="kuka_visual" material="kuka_orange" mesh="link_4_orange"></geom>
+            <geom class="kuka_visual" mesh="link_4_grey"></geom>
+            <geom class="kuka_collision" pos="0 0.01 0.046" size="0.078"></geom>
+            <geom class="kuka_collision" pos="0.01 0.06 0.052" size="0.06"></geom>
+            <geom class="kuka_collision" pos="0.01 0.12 0.034" size="0.065"></geom>
+            <geom class="kuka_collision" pos="-0.01 0.06 0.052" size="0.06"></geom>
+            <geom class="kuka_collision" pos="-0.01 0.12 0.034" size="0.065"></geom>
+            <geom class="kuka_collision" pos="0 0.184 0" size="0.075"></geom>
+            <body name="link5" pos="0 0.1845 0" quat="0 0 1 1">
+              <inertial diaginertia="0.01 0.0087 0.00449" mass="3.5" pos="0.0001 0.021 0.076"></inertial>
+              <joint class="joint1" name="kuka_joint5"></joint>
+              <geom class="kuka_visual" mesh="link_5"></geom>
+              <geom class="kuka_visual" material="kuka_light_gray" mesh="band"></geom>
+              <geom class="kuka_visual" material="kuka_black" mesh="kuka"></geom>
+              <geom class="kuka_collision" pos="0 0 0.0335" size="0.075"></geom>
+              <geom class="kuka_collision" pos="-0.012 0.031 0.0755" size="0.05"></geom>
+              <geom class="kuka_collision" pos="0.012 0.031 0.0755" size="0.05"></geom>
+              <geom class="kuka_collision" pos="-0.012 0.06 0.1155" size="0.04"></geom>
+              <geom class="kuka_collision" pos="0.012 0.06 0.1155" size="0.04"></geom>
+              <geom class="kuka_collision" pos="-0.01 0.065 0.1655" size="0.04"></geom>
+              <geom class="kuka_collision" pos="0.01 0.065 0.1655" size="0.04"></geom>
+              <geom class="kuka_collision" pos="-0.012 0.065 0.1855" size="0.035"></geom>
+              <geom class="kuka_collision" pos="0.012 0.065 0.1855" size="0.035"></geom>
+              <body name="link6" pos="0 0 0.2155" quat="1 1 0 0">
+                <inertial diaginertia="0.0049 0.0047 0.0036" mass="1.8" pos="0 0.0006 0.0004" quat="1 1 0 0"></inertial>
+                <joint class="joint2" name="kuka_joint6"></joint>
+                <geom class="kuka_visual" material="kuka_orange" mesh="link_6_orange"></geom>
+                <geom class="kuka_visual" mesh="link_6_grey"></geom>
+                <geom class="kuka_collision" pos="0 0 -0.059" size="0.055"></geom>
+                <geom class="kuka_collision" pos="0 -0.03 0.011" size="0.065"></geom>
+                <geom class="kuka_collision" size="0.08"></geom>
+                <body name="link7" pos="0 0.081 0" quat="0 0 1 1">
+                  <inertial diaginertia="0.001 0.001 0.001" mass="1.2" pos="0 0 0.02"></inertial>
+                  <joint class="joint3" name="kuka_joint7"></joint>
+                  <geom class="kuka_visual" mesh="link_7"></geom>
+                  <geom class="kuka_collision" pos="0 0 0.001" size="0.06"></geom>
+                  <body name="attachment" pos="0 0.0 0.045" quat="1 0 0 0">
+                    <site group="3" name="ee" rgba="0 1 0 1" size="0.01"></site>
+                  </body>
+                  <body name="box_eef" pos="0 0.0 0.045" quat="1 0 0 0">
+                    <geom condim="6" friction="1" mass="0.01" name="box_eef_geom" pos="0 0 0.04" rgba="0.5 0.7 0.5 1" size="0.009 0.009 0.04" type="box"></geom>
+                    <body name="dummy body" pos="0 0 0.08">
+                      <inertial diaginertia="0 0 0" mass="0.0001" pos="0 0 0"></inertial>
+                      <geom rgba="0 1 0 0" size="0.001" type="sphere"></geom>
+                      <site group="1" name="sensor" quat="1 0 0 0" rgba="0 1 0 1" size="0.01"></site>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </body>
+</mujocoinclude>
