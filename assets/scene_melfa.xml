@@ -10,6 +10,9 @@
     <default class="RV4FRL">
       <joint armature="1" damping="1"></joint>
     </default>
+    <default class="rgb">
+      <joint armature="0.01" damping="0.001"></joint>
+    </default>
     <default class="grip_site">
       <site rgba="0.3 0.3 0.7 0" size="0.01 0.01 0.01"></site>
     </default>
@@ -58,6 +61,7 @@
     <body name="floor" pos="0 0 0">
       <geom material="groundplane" name="floor" size="5 5 0.1" type="plane"></geom>
     </body>
+
     <body mocap="true" name="target" pos="0.4 0 .5" quat="0 1 0 0">
       <geom conaffinity="0" contype="0" rgba=".6 .3 .3 .0" size=".02 .02 .02" type="box"></geom>
       <site group="3" rgba="0 0 1 1" size="0.01" type="sphere"></site>
@@ -69,61 +73,62 @@
       <body name="base_link" pos="0 0 0.02">
         <inertial fullinertia="0.065 0.0518 0.0244 -0.000406 0.000602 -0.0012" mass="11" pos="0 0 0"></inertial>
         <geom euler="1.5707963267948966 3.141592653589793 0" material="rv4flr_mat" mesh="base" name="base_link" type="mesh"></geom>
-        <body gravcomp="0" name="shoulder_link" pos="0 0 .350">
+        <body gravcomp="1" name="shoulder_link" pos="0 0 .350">
           <inertial fullinertia="0.065 0.0518 0.0244 -0.000406 0.000602 -0.0012" mass="4.36" pos="0 0 0"></inertial>
           <joint armature="0.1" axis="0 0 1" damping="100" limited="true" name="shoulder_pan_joint" pos="0 0 -0.157" range="-4.18799 4.18799"></joint>
           <geom euler="1.5707963267948966 3.141592653589793 0" material="rv4flr_mat" mesh="shoulder" name="shoulder_link" type="mesh"></geom>
-          <body gravcomp="0" name="upper_arm_link" pos="0 0 0">
+          <body gravcomp="1" name="upper_arm_link" pos="0 0 0">
             <inertial mass="10.6" pos="0 0 0"></inertial>
             <joint axis="0 1 0" class="RV4FRL" limited="true" name="upperarm_joint" pos="0 0 0" range="-2.0944 2.0944"></joint>
             <geom euler="1.5707963267948966 3.141592653589793 0" material="rv4flr_mat" mesh="upperarm" name="upper_arm_link" type="mesh"></geom>
-            <body gravcomp="0" name="elbow" pos="0 0 .31">
+            <body gravcomp="1" name="elbow" pos="0 0 .31">
               <inertial mass="4.29" pos="0 0 0"></inertial>
               <joint axis="0 -1 0" class="RV4FRL" limited="true" name="elbow_joint" pos="0 0 0" range="-2.86234 0"></joint>
               <geom euler="1.5707963267948966 3.141592653589793 -1.5707963267948966" material="rv4flr_mat" mesh="elbow" name="elbow" type="mesh"></geom>
-              <body gravcomp="0" name="forearm" pos="-.050 0 0.335">
+              <body gravcomp="1" name="forearm" pos="-.050 0 0.335">
                 <inertial mass="4.12" pos="0 0 0"></inertial>
                 <joint axis="0 0 1" class="RV4FRL" limited="true" name="forearm_joint" pos="0 0 -0.275" range="-3.49066 3.49066"></joint>
                 <geom euler="1.5707963267948966 0 -1.5707963267948966" material="rv4flr_mat" mesh="forearm" name="forearm" type="mesh"></geom>
-                <body gravcomp="0" name="wrist_1_link" pos="0 0 0">
+                <body gravcomp="1" name="wrist_1_link" pos="0 0 0">
                   <inertial mass="1.1" pos="0 0 0"></inertial>
                   <joint axis="0 1 0" class="RV4FRL" limited="true" name="wrist_1_joint" pos="0 0 0" range="-2.0944 2.0944"></joint>
                   <geom euler="1.5707963267948966 0 -1.5707963267948966" material="rv4flr_mat" mesh="wrist1" name="wrist_1_link" type="mesh"></geom>
-                  <body gravcomp="0" name="wrist_2_link" pos="0 0 0.125">
+                  <body gravcomp="1" name="wrist_2_link" pos="0 0 0.125">
                     <site name="wrist_site"></site>
+                    <site group="2" name="sensor" quat="1 0 0 0" rgba="0.2 0.7 0.1 1" size="0.01"></site>
                     <inertial mass="0.2" pos="0 0 0"></inertial>
                     <joint axis="0 0 1" class="RV4FRL" limited="true" name="wrist_2_joint" pos="0 0 0" range="-6.28319 6.28319"></joint>
                     <geom euler="0 0 -1.5707963267948966" material="rv4flr_hand_mat" mesh="wrist2" name="wrist_2_link" type="mesh"></geom>
-                    <body gravcomp="0" name="schunk_base" pos="0.0 0 0.0" quat="1 0 0 0">
-                      <site name="ft_frame" pos="0 0 0" rgba="1 0 0 1" size="0.01 0.01 0.01"></site>
+                    <body gravcomp="1" name="schunk_base" pos="0.0 0 0.0" quat="1 0 0 0">
+                      <!-- <site name="ft_frame" pos="0 0 0" rgba="1 0 0 1" size="0.01 0.01 0.01"></site> -->
                       <site name="pinch_site" pos="0 0 0.125" rgba="1 1 1 0"></site>
                       <geom group="0" mesh="schunk_base" name="schunk_base_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
-                      <body name="dummy body" pos="0 0 0.13">
+<!--                       <body name="dummy body" pos="0 0 0.125">
                         <inertial diaginertia="0 0 0" mass="0.0001" pos="0 0 0"></inertial>
                         <geom rgba="0.7 0.2 0.1 1" size="0.01" type="sphere"></geom>
                         <site group="2" name="sensor" quat="1 0 0 0" rgba="0.2 0.7 0.1 1" size="0.01"></site>
                       </body>
-                      <!-- left slider -->
-                      <body gravcomp="0" name="schunk_left_slider" pos="0 0.01 0.061014" quat="1 0 0 0">
+  -->                     <!-- left slider -->
+                      <body gravcomp="1" name="schunk_left_slider" pos="0 0.01 0.061014" quat="1 0 0 0">
                         <inertial diaginertia="0.1 0.1 0.1" mass="0.1" pos="-0.01 0 0"></inertial>
                         <joint armature="1" axis="0 1 0" damping="10" limited="true" name="schunk_left_slider_joint" range="0 0.032" type="slide"></joint>
                         <geom conaffinity="0" contype="0" group="0" mesh="schunk_left_slider" name="schunk_left_slider_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
                         <!-- left finger -->
-                        <body gravcomp="0" name="schunk_left_finger" pos="0 -0.0045 0.015" quat="0.5 0.5 0.5 0.5">
+                        <body gravcomp="1" name="schunk_left_finger" pos="0 -0.0045 0.015" quat="0.5 0.5 0.5 0.5">
                           <geom conaffinity="0" contype="0" group="0" mesh="schunk_finger" name="schunk_left_finger" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
-                          <geom name="schunk_left_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 1.0" size="0.005 0.02 0.01" type="box"></geom>
+                          <geom name="schunk_left_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 0" size="0.005 0.02 0.02" type="box"></geom>
                           <site name="left_finger_site" pos="0 0.04 0" rgba="1 1 1 0"></site>
                         </body>
                       </body>
                       <!-- right slider -->
-                      <body gravcomp="0" name="schunk_right_slider" pos="0 -0.01 0.061014" quat="0 0 0 1">
+                      <body gravcomp="1" name="schunk_right_slider" pos="0 -0.01 0.061014" quat="0 0 0 1">
                         <inertial diaginertia="0.1 0.1 0.1" mass="0.1" pos="-0.01 0 0"></inertial>
                         <joint armature="1" axis="0 1 0" damping="10" limited="true" name="schunk_right_slider_joint" range="0 0.032" type="slide"></joint>
                         <geom conaffinity="0" contype="0" group="0" mesh="schunk_right_slider" name="schunk_right_slider_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
                         <!-- right finger -->
-                        <body gravcomp="0" name="schunk_right_finger" pos="0 -0.0045 0.015" quat="-0.5 -0.5 -0.5 -0.5">
+                        <body gravcomp="1" name="schunk_right_finger" pos="0 -0.0045 0.015" quat="-0.5 -0.5 -0.5 -0.5">
                           <geom conaffinity="0" contype="0" group="0" mesh="schunk_finger" name="schunk_right_finger" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
-                          <geom name="schunk_right_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 1.0" size="0.005 0.02 0.01" type="box"></geom>
+                          <geom name="schunk_right_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 0" size="0.005 0.02 0.02" type="box"></geom>
                           <site name="right_finger_site" pos="0 0.04 0" rgba="1 1 1 0"></site>
                         </body>
                       </body>
@@ -135,6 +140,12 @@
           </body>
         </body>
       </body>
+    </body>
+    <body name="red_object" pos="0.3 0.3 0.1">
+      <!-- <freejoint name="red_object"></freejoint> -->
+      <joint type="free" name="red_object" class="rgb"></joint>
+      <inertial mass="0.05" pos="0 0 0"></inertial>
+      <geom type="box" name="red_object" size="0.02 0.02 0.02" rgba="1 0 0 1" condim="3" friction="1 0.005 0.0001"></geom>
     </body>
   </worldbody>
   <!-- Actuators -->
@@ -148,27 +159,27 @@
     <joint joint1="schunk_right_slider_joint" joint2="schunk_left_slider_joint" solimp="0.95 0.99 0.001" solref="0.005 1"></joint>
   </equality>
   <actuator>
-    <motor ctrlrange="-180 180" joint="shoulder_pan_joint" name="shoulder_pan_joint"/>
+    <!-- <motor ctrlrange="-180 180" joint="shoulder_pan_joint" name="shoulder_pan_joint"/>
     <motor ctrlrange="-180 180" joint="upperarm_joint" name="upperarm_joint"/>
     <motor ctrlrange="-110 110" joint="elbow_joint" name="elbow_joint"/>
     <motor ctrlrange="-110 110" joint="forearm_joint" name="forearm_joint"/>
     <motor ctrlrange="-40 40" joint="wrist_1_joint" name="wrist_1_joint"/>
-    <motor ctrlrange="-40 40" joint="wrist_2_joint" name="wrist_2_joint"/>
-    <position ctrlrange="0 0.032" forcerange="-100 100" kp="500" kv="50" name="schunk_gripper" tendon="split"></position>
-    <!-- <position ctrlrange="-4.18799 4.18799" joint="shoulder_pan_joint" kp="5000" kv="500" name="shoulder_pan_joint"></position> -->
-    <!-- <position ctrlrange="-2.0944 2.0944" joint="upperarm_joint" kp="5000" kv="500" name="upperarm_joint"></position> -->
-    <!-- <position ctrlrange="-2.86234 0 " joint="elbow_joint" kp="2000" kv="200" name="elbow_joint"></position> -->
-    <!-- <position ctrlrange="-3.49066 3.49066" joint="forearm_joint" kp="200" kv="20" name="forearm_joint"></position> -->
-    <!-- <position ctrlrange="-2.0944 2.0944" joint="wrist_1_joint" kp="200" kv="20" name="wrist_1_joint"></position> -->
-    <!-- <position ctrlrange="-6.28319 6.28319" joint="wrist_2_joint" kp="200" kv="20" name="wrist_2_joint"></position> -->
+    <motor ctrlrange="-40 40" joint="wrist_2_joint" name="wrist_2_joint"/> -->
     <!-- <position ctrlrange="0 0.032" forcerange="-100 100" kp="500" kv="50" name="schunk_gripper" tendon="split"></position> -->
+    <position ctrlrange="-4.18799 4.18799" joint="shoulder_pan_joint" kp="1000" kv="10" name="shoulder_pan_joint"></position> -->
+    <position ctrlrange="-2.0944 2.0944" joint="upperarm_joint" kp="1000" kv="10" name="upperarm_joint"></position>
+    <position ctrlrange="-2.86234 0 " joint="elbow_joint" kp="500" kv="50" name="elbow_joint"></position>
+    <position ctrlrange="-3.49066 3.49066" joint="forearm_joint" kp="500" kv="50" name="forearm_joint"></position>
+    <position ctrlrange="-2.0944 2.0944" joint="wrist_1_joint" kp="100" kv="10" name="wrist_1_joint"></position>
+    <position ctrlrange="-6.28319 6.28319" joint="wrist_2_joint" kp="100" kv="10" name="wrist_2_joint"></position>
+    <position ctrlrange="0 0.032" forcerange="-100 100" kp="500" name="schunk_gripper" tendon="split"></position>
   </actuator>
   <contact>
     <exclude body1="base_link" body2="shoulder_link"></exclude>
     <exclude body1="upper_arm_link" body2="forearm"></exclude>
   </contact>
   <sensor>
-    <force name="ee_force_sensor" site="sensor"></force>
-    <torque name="ee_torque_sensor" site="sensor"></torque>
+    <force name="wrist_force_sensor" site="sensor"></force>
+    <torque name="wrist_torque_sensor" site="sensor"></torque>
   </sensor>
 </mujoco>

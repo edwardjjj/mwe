@@ -10,9 +10,9 @@ impedance_pos = np.asarray([100.0, 100.0, 50.0])  # [N/m]
 impedance_ori = np.asarray([150.0, 150.0, 150.0])  # [Nm/rad]
 
 # Joint impedance control gains.
-Kp_null = np.asarray([75.0, 75.0, 50.0, 50.0, 40.0, 25.0, 25.0])
+# Kp_null = np.asarray([75.0, 75.0, 50.0, 50.0, 40.0, 25.0, 25.0])
 
-# Kp_null = np.array([75.0, 75.0, 50.0, 50.0, 40.0, 25.0])
+Kp_null = np.array([75.0, 75.0, 50.0, 50.0, 40.0, 25.0])
 
 # Damping ratio for both Cartesian and joint impedance control.
 damping_ratio = 1.0
@@ -46,7 +46,7 @@ def xmat2quat(data, site_id):
 def main() -> None:
     np.set_printoptions(precision=5, suppress=True, linewidth=100)
     # Load the model and data.
-    model = mujoco.MjModel.from_xml_path("assets/scene.xml")
+    model = mujoco.MjModel.from_xml_path("assets/scene_melfa.xml")
     data = mujoco.MjData(model)
     renderer = mujoco.Renderer(model)
 
@@ -58,59 +58,63 @@ def main() -> None:
     Kd = np.concatenate([damping_pos, damping_ori], axis=0)
     Kd_null = damping_ratio * 2 * np.sqrt(Kp_null)
 
-    joint_names = [
-        "kuka_joint1",
-        "kuka_joint2",
-        "kuka_joint3",
-        "kuka_joint4",
-        "kuka_joint5",
-        "kuka_joint6",
-        "kuka_joint7",
-    ]
-    actuator_names = [
-        "actuator1",
-        "actuator2",
-        "actuator3",
-        "actuator4",
-        "actuator5",
-        "actuator6",
-        "actuator7",
-    ]
-
     # joint_names = [
-    #         "shoulder_pan_joint",
-    #         "upperarm_joint",
-    #         "elbow_joint",
-    #         "forearm_joint",
-    #         "wrist_1_joint",
-    #         "wrist_2_joint",
+    #     "kuka_joint1",
+    #     "kuka_joint2",
+    #     "kuka_joint3",
+    #     "kuka_joint4",
+    #     "kuka_joint5",
+    #     "kuka_joint6",
+    #     "kuka_joint7",
+    # ]
+    # actuator_names = [
+    #     "actuator1",
+    #     "actuator2",
+    #     "actuator3",
+    #     "actuator4",
+    #     "actuator5",
+    #     "actuator6",
+    #     "actuator7",
     # ]
 
-    # actuator_names = [
-    #         "shoulder_pan_joint",
-    #         "upperarm_joint",
-    #         "elbow_joint",
-    #         "forearm_joint",
-    #         "wrist_1_joint",
-    #         "wrist_2_joint",
-    # ]
+    joint_names = [
+            "shoulder_pan_joint",
+            "upperarm_joint",
+            "elbow_joint",
+            "forearm_joint",
+            "wrist_1_joint",
+            "wrist_2_joint",
+    ]
+
+    actuator_names = [
+            "shoulder_pan_joint",
+            "upperarm_joint",
+            "elbow_joint",
+            "forearm_joint",
+            "wrist_1_joint",
+            "wrist_2_joint",
+    ]
     dof_ids = np.array([model.joint(name).id for name in joint_names])
     actuator_ids = np.array([model.actuator(name).id for name in actuator_names])
 
-    # q0 = np.array([0, 0.2082, -1.6390, 0, 1.2944, 0])
-    q0 = np.array([-0.002, 0.753, 0.002, -1.313, 0.003, 1.067, 0.0])
+    q0 = np.array([0, 0.2082, -1.6390, 0, 1.2944, 0])
+    q1 = np.array([0.023, 0.023, 0.4, 0, 0.42])
+    # q0 = np.array([-0.002, 0.753, 0.002, -1.313, 0.003, 1.067, 0.0])
     for i in range(len(joint_names)):
         data.joint(joint_names[i]).qpos = q0[i]
 
+    data.qpos[6:11] = q1
+    data.ctrl[6] = 0
     mujoco.mj_forward(model, data)
 
-    ee_site_name = "ee"
-    # ee_site_name = "pinch_site"
+    # ee_site_name = "ee"
+    ee_site_name = "pinch_site"
     ee_site_id = model.site(ee_site_name).id
     sensor_site_id = model.site("sensor").id
     sensor_site_xmat = data.site_xmat[sensor_site_id]
 
     initial_ee_xpos = data.site_xpos[ee_site_id].copy()
+    print(initial_ee_xpos)
     initial_ee_quat = xmat2quat(data, ee_site_id)
 
     mocap_name = "target"
@@ -119,9 +123,9 @@ def main() -> None:
 
     mujoco.mj_forward(model, data)
 
-    down_traj = list(np.linspace(initial_ee_xpos[2], 0.06, 2000))
+    down_traj = list(np.linspace(initial_ee_xpos[2], 0.02, 2000))
     counter = 0
-    hit_target = 0.05
+    hit_target = 0.015
     hit_counter = 0
 
     # Pre-allocate numpy arrays.
@@ -146,9 +150,9 @@ def main() -> None:
         mujoco.mjv_defaultFreeCamera(model, viewer.cam)
 
         # Enable site frame visualization.
-        viewer.opt.frame = mujoco.mjtFrame.mjFRAME_SITE
-        viewer.opt.label = mujoco.mjtLabel.mjLABEL_SITE
-        viewer.opt.label = mujoco.mjtLabel.mjLABEL_BODY
+        # viewer.opt.frame = mujoco.mjtFrame.mjFRAME_SITE
+        # viewer.opt.label = mujoco.mjtLabel.mjLABEL_SITE
+        # viewer.opt.label = mujoco.mjtLabel.mjLABEL_BODY
 
         while viewer.is_running():
             step_start = time.time()
@@ -157,7 +161,7 @@ def main() -> None:
                 data.mocap_pos[mocap_id][2] = down_traj[counter]
                 counter += 1
             else:
-                if hit_counter != 1000:
+                if hit_counter != 1500:
                     data.mocap_pos[mocap_id][2] = hit_target
                     hit_counter += 1
                 else:
@@ -216,35 +220,35 @@ def main() -> None:
                 Mx = np.linalg.pinv(Mx_inv, rcond=1e-2)
 
             # Compute generalized forces.
-            tau = jac.T @ Mx @ (Kp * twist - Kd * (jac @ data.qvel[dof_ids]))
+            tau = jac.T @ Mx @ (Kp * twist - Kd * (jac @ data.qvel))
 
             # Add joint task in nullspace.
             Jbar = M_inv @ jac.T @ Mx
-            # ddq = np.zeros(model.nv)
-            # ddq[:6] = Kp_null * (q0 - data.qpos[:6]) - Kd_null * data.qvel[:6]
-            ddq = Kp_null * (q0 - data.qpos[dof_ids]) - Kd_null * data.qvel[dof_ids]
+            ddq = np.zeros(model.nv)
+            ddq[dof_ids] = Kp_null * (q0 - data.qpos[dof_ids]) - Kd_null * data.qvel[dof_ids]
+            # ddq = Kp_null * (q0 - data.qpos[dof_ids]) - Kd_null * data.qvel[dof_ids]
             # tau_2 = tau[:6].copy()
             tau += (np.eye(model.nv) - jac.T @ Jbar.T) @ ddq
 
             # Add gravity compensation.
-            if gravity_compensation:
-                tau += data.qfrc_bias[dof_ids]
+            # if gravity_compensation:
+            #     tau[dof_ids] += data.qfrc_bias[dof_ids]
 
-            # kp = model.actuator_gainprm[:6, 0]
-            # kv = model.actuator_biasprm[:6, 0]
+            kp = model.actuator_gainprm[:6, 0]
+            kv = model.actuator_biasprm[:6, 0]
             # Set the control signal and step the simulation.
-            # dq = (tau[:6] - kv * data.qvel[:6]) / kp
-            # q = data.qpos[:6].copy()
-            # ctrl = q + dq
+            dq = (tau[:6] - kv * data.qvel[:6]) / kp
+            q = data.qpos[:6].copy()
+            ctrl = q + dq
 
             # np.clip(tau_2, *model.actuator_ctrlrange.T, out=tau_2)
-            np.clip(tau, *model.actuator_ctrlrange.T, out=tau)
+            # np.clip(tau, *model.actuator_ctrlrange.T, out=tau)
             # data.ctrl[:6] = ctrl[:6]
-            data.ctrl[actuator_ids] = tau[actuator_ids]
-            mujoco.mj_step(model, data, nstep=5)
+            data.ctrl[actuator_ids] = ctrl[actuator_ids]
+            mujoco.mj_step(model, data)
 
-            force_sensordata.append(data.sensor("ee_force_sensor").data.copy())
-            torque_sensordata.append(data.sensor("ee_torque_sensor").data.copy())
+            force_sensordata.append(data.sensor("wrist_force_sensor").data.copy())
+            torque_sensordata.append(data.sensor("wrist_torque_sensor").data.copy())
 
             viewer.sync()
 
