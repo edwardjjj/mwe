@@ -121,7 +121,7 @@ def main() -> None:
 
     down_traj = list(np.linspace(initial_ee_xpos[2], 0.06, 2000))
     counter = 0
-    hit_target = 0.05
+    hit_target = 0.005
     hit_counter = 0
 
     # Pre-allocate numpy arrays.

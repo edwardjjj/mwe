@@ -110,9 +110,9 @@ def main() -> None:
 
     mujoco.mj_forward(model, data)
 
-    down_traj = list(np.linspace(initial_ee_xpos[2]+0.125, 0.02, 2000))
+    down_traj = list(np.linspace(initial_ee_xpos[2]+0.125, 0.13, 2000))
     counter = 0
-    hit_target = 0.01
+    hit_target = 0.1
     hit_counter = 0
 
     # Pre-allocate numpy arrays.

@@ -122,7 +122,7 @@
   <actuator>
     <position ctrlrange="0 0.4" forcerange="-100 100" joint="gripper_x" kp="50" kv="5" name="gripper_x"></position>
     <position ctrlrange="-0.2 0.2" forcerange="-100 100" joint="gripper_y" kp="50" kv="5" name="gripper_y"></position>
-    <position ctrlrange="0 0.5" forcerange="-100 100" joint="gripper_z" kp="50" kv="5" name="gripper_z"></position>
+    <position ctrlrange="0 0.5" joint="gripper_z" kp="50" kv="5" name="gripper_z"></position>
     <position ctrlrange="0 0.032" forcerange="-100 100" kp="200" name="schunk_gripper" tendon="split"></position>
   </actuator>
   <sensor>
