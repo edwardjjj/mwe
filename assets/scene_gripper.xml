@@ -1,0 +1,132 @@
+<mujoco model="RV4FRL">
+  <compiler angle="radian" autolimits="true" inertiafromgeom="true" meshdir="meshes"></compiler>
+  <option cone="elliptic" impratio="1000" integrator="implicitfast" timestep="2e-3" tolerance="1e-10"></option>
+  <size nconmax="150" njmax="600" nstack="300000"></size>
+  <default>
+    <site rgba="1.0 0.0 0.7 1.0"></site>
+    <geom conaffinity="1" condim="4" contype="1" friction="10 0.01 0.001" margin="1e-3" solimp=".95 .95 .01" solref=".01 1" type="capsule"></geom>
+    <!-- <geom type="capsule"></geom> -->
+    <joint armature="0.1" damping="1"></joint>
+    <default class="RV4FRL">
+      <joint armature="1" damping="1"></joint>
+    </default>
+    <default class="rgb">
+      <joint armature="0.01" damping="0.001"></joint>
+    </default>
+    <default class="grip_site">
+      <site rgba="0.3 0.3 0.7 0" size="0.01 0.01 0.01"></site>
+    </default>
+    <default class="stack_site">
+      <site rgba="0.7 0.3 0.3 0" size="0.01 0.01 0.01"></site>
+    </default>
+  </default>
+  <visual>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1"></headlight>
+    <map fogend="5" fogstart="3" znear="0.05"></map>
+    <quality shadowsize="2048"></quality>
+    <!-- <scale contactheight="0.005" contactwidth="0.1" forcewidth="0.01" framelength="0.1" framewidth="0.005"></scale> -->
+  </visual>
+  <asset>
+    <!--Meshes-->
+    <mesh file="melfa_RV4/RV-4FR_BASE.stl" name="base" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4F_SHOULDER.stl" name="shoulder" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4FL_NO1ARM.stl" name="upperarm" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4F_ELBOW.stl" name="elbow" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4FL_NO2ARM.stl" name="forearm" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4F-SH_WRIST.stl" name="wrist1" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="melfa_RV4/RV-4F-SH_HAND_FLANGE.stl" name="wrist2" scale="0.001 0.001 0.001"></mesh>
+    <mesh file="./schunk/base.stl" name="schunk_base"></mesh>
+    <mesh file="./schunk/left_slider.stl" name="schunk_left_slider"></mesh>
+    <mesh file="./schunk/right_slider.stl" name="schunk_right_slider"></mesh>
+    <mesh file="./schunk/finger.stl" name="schunk_finger"></mesh>
+    <mesh file="./rgb/r3_sds4_shr75_drf0_hlw0_shx0_shy0_scx41_scy49_scz71.stl" name="red" scale="0.8 0.8 0.8"></mesh>
+    <mesh file="./rgb/s0_sds4_shr0_drf0_hlw0_shx0_shy0_scx50_scy50_scz50.stl" name="green" scale="0.8 0.8 0.8"></mesh>
+    <mesh file="./rgb/b2_sds8_shr0_drf0_hlw0_shx0_shy0_scx45_scy45_scz50.stl" name="blue" scale="0.8 0.8 0.8"></mesh>
+    <!--Textures-->
+    <texture builtin="checker" height="200" mark="edge" markrgb="0.8 0.8 0.8" name="groundplane" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" type="2d" width="200"></texture>
+    <texture builtin="gradient" height="100" name="skybox" rgb1="0.7 0.7 0.7" rgb2="0.9 0.9 0.9" type="skybox" width="100"></texture>
+    <!--Materials-->
+    <material name="rv4flr_mat" reflectance="0.5" rgba="1.2 1.23 1.26 1" shininess="0.3" specular="0.75"></material>
+    <material name="rv4flr_hand_mat" reflectance="0.2" rgba="0.8 0.8 0.8 1" shininess="0.1" specular="0.5"></material>
+    <material name="bench_mat" reflectance="0.2" rgba="0.8 0.8 0.8 1" shininess="0.1" specular="0.5"></material>
+    <material name="floor_mat" reflectance="0.0" rgba="0.3 0.3 0.3 1" shininess="0.5" specular="0"></material>
+    <material name="groundplane" reflectance="0.1" texrepeat="2 2" texture="groundplane" texuniform="true"></material>
+  </asset>
+  <worldbody>
+    <!--Camera parameters-->
+    <camera euler="0 0.785 1.5707" fovy="65" name="main_camera" pos="0.7 0 0.3"></camera>
+    <camera fovy="35" name="left_camera" pos="0.78 -0.35 0.4" quat="0.8388 0.3838 0.1605 0.3512"></camera>
+    <camera fovy="35" name="right_camera" pos="0.78 0.35 0.4" quat="0.3512 0.1605 0.3838 0.8387"></camera>
+    <!--Floor Property-->
+    <body name="floor" pos="0 0 0">
+      <geom material="groundplane" name="floor" size="5 5 0.1" type="plane"></geom>
+    </body>
+    <body mocap="true" name="target" pos="0.4 0 .5" quat="0 1 0 0">
+      <geom conaffinity="0" contype="0" rgba=".6 .3 .3 .0" size=".02 .02 .02" type="box"></geom>
+      <site group="3" rgba="0 0 1 1" size="0.01" type="sphere"></site>
+    </body>
+    <!--Robot RV4FLR-->
+
+    <body name="gripper" pos="0 0 0">
+      <joint armature="0.1" axis="1 0 0" damping="1" limited="true" name="gripper_x" range="0 0.4" type="slide" pos="0 0 0.125"></joint>
+      <joint armature="0.1" axis="0 1 0" damping="1" limited="true" name="gripper_y" range="-0.2 0.2" type="slide" pos="0 0 0.125"></joint>
+      <joint armature="0.1" axis="0 0 1" damping="1" limited="true" name="gripper_z" range="0 0.5" type="slide" pos="0 0 0.125"></joint>
+      <body euler="-3.1415926 0 0" gravcomp="1" name="schunk_base" pos="0 0 0">
+        <site group="2" name="sensor" quat="1 0 0 0" rgba="0.2 0.7 0.1 1" size="0.01"></site>
+        <!-- <site name="ft_frame" pos="0 0 0" rgba="1 0 0 1" size="0.01 0.01 0.01"></site> -->
+        <site name="pinch_site" pos="0 0 0.125" rgba="1 1 1 1"></site>
+        <geom group="0" mesh="schunk_base" name="schunk_base_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
+        <!-- left slider -->
+        <body gravcomp="1" name="schunk_left_slider" pos="0 0.01 0.061014" quat="1 0 0 0">
+          <inertial diaginertia="0.1 0.1 0.1" mass="0.1" pos="-0.01 0 0"></inertial>
+          <joint armature="1" axis="0 1 0" damping="10" limited="true" name="schunk_left_slider_joint" range="0 0.032" type="slide"></joint>
+          <geom conaffinity="0" contype="0" group="0" mesh="schunk_left_slider" name="schunk_left_slider_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
+          <!-- left finger -->
+          <body gravcomp="1" name="schunk_left_finger" pos="0 -0.0045 0.015" quat="0.5 0.5 0.5 0.5">
+            <geom conaffinity="0" contype="0" group="0" mesh="schunk_finger" name="schunk_left_finger" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
+            <geom name="schunk_left_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 0" size="0.005 0.02 0.02" type="box"></geom>
+            <site name="left_finger_site" pos="0 0.04 0" rgba="1 1 1 0"></site>
+          </body>
+        </body>
+        <!-- right slider -->
+        <body gravcomp="1" name="schunk_right_slider" pos="0 -0.01 0.061014" quat="0 0 0 1">
+          <inertial diaginertia="0.1 0.1 0.1" mass="0.1" pos="-0.01 0 0"></inertial>
+          <joint armature="1" axis="0 1 0" damping="10" limited="true" name="schunk_right_slider_joint" range="0 0.032" type="slide"></joint>
+          <geom conaffinity="0" contype="0" group="0" mesh="schunk_right_slider" name="schunk_right_slider_col" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
+          <!-- right finger -->
+          <body gravcomp="1" name="schunk_right_finger" pos="0 -0.0045 0.015" quat="-0.5 -0.5 -0.5 -0.5">
+            <geom conaffinity="0" contype="0" group="0" mesh="schunk_finger" name="schunk_right_finger" rgba="0.7 0.7 0.7 1.0" type="mesh"></geom>
+            <geom name="schunk_right_finger_collision" pos="0.006 0.04 0" rgba="0.7 0.7 0.7 0" size="0.005 0.02 0.02" type="box"></geom>
+            <site name="right_finger_site" pos="0 0.04 0" rgba="1 1 1 0"></site>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="red_object" pos="0.3 0.3 0.1">
+      <!-- <freejoint name="red_object"></freejoint> -->
+      <joint class="rgb" name="red_object" type="free"></joint>
+      <inertial mass="0.05" pos="0 0 0"></inertial>
+      <geom condim="3" friction="1 0.005 0.0001" name="red_object" rgba="1 0 0 1" size="0.02 0.02 0.02" type="box"></geom>
+    </body>
+  </worldbody>
+  <!-- Actuators -->
+  <tendon>
+    <fixed name="split">
+      <joint coef="0.5" joint="schunk_right_slider_joint"></joint>
+      <joint coef="0.5" joint="schunk_left_slider_joint"></joint>
+    </fixed>
+  </tendon>
+  <equality>
+    <joint joint1="schunk_right_slider_joint" joint2="schunk_left_slider_joint" solimp="0.95 0.99 0.001" solref="0.005 1"></joint>
+  </equality>
+  <actuator>
+    <position ctrlrange="0 0.4" forcerange="-100 100" joint="gripper_x" kp="50" kv="5" name="gripper_x"></position>
+    <position ctrlrange="-0.2 0.2" forcerange="-100 100" joint="gripper_y" kp="50" kv="5" name="gripper_y"></position>
+    <position ctrlrange="0 0.5" forcerange="-100 100" joint="gripper_z" kp="50" kv="5" name="gripper_z"></position>
+    <position ctrlrange="0 0.032" forcerange="-100 100" kp="200" name="schunk_gripper" tendon="split"></position>
+  </actuator>
+  <sensor>
+    <force name="wrist_force_sensor" site="sensor"></force>
+    <torque name="wrist_torque_sensor" site="sensor"></torque>
+  </sensor>
+</mujoco>
